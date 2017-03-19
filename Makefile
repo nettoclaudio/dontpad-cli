@@ -6,7 +6,7 @@ goAppName ?= dontpad-cli
 
 installDir ?= /usr/local/bin
 
-.PHONY: all build pre-build clean
+.PHONY: all build pre-build clean install uninstall test
 
 all: build
 
@@ -16,7 +16,7 @@ build: pre-build
 pre-build: clean
 	mkdir $(goBuildDir)
 
-clean: uninstall
+clean:
 	rm -f $(goBuildDir)/$(goAppName)
 	rm -df $(goBuildDir)
 
@@ -25,3 +25,6 @@ install:
 
 uninstall:
 	rm -f $(installDir)/$(goAppName)
+
+test:
+	$(GO) test -v ./...
