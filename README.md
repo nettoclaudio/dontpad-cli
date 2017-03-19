@@ -7,6 +7,15 @@ A minimal tool for Dontpad's users under CLI.
 ## Quick start
 
 ```bash
+go get github.com/nettoclaudio/dontpad-cli
+${GOPATH}/bin/dontpad-cli /my-first-folder/annotations
+```
+
+or
+
+```bash
+mkdir -p ${GOPATH}/src/github.com/nettoclaudio
+cd ${GOPATH}/src/github.com/nettoclaudio
 git clone https://github.com/nettoclaudio/dontpad-cli.git
 cd dontpad-cli
 make
@@ -18,7 +27,7 @@ dontpad-cli /my-first-folder/annotations
 ```
 ## TO DO
 
-+ View a folder
++ ~~View a folder~~
 + Edit a folder
 + Show a list of folder's children
 + Backup a folder(and subfolders)
