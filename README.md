@@ -4,6 +4,8 @@ A minimal tool for Dontpad's users under CLI.
 
 **Warning**: This app isn't a Dontpad official software.
 
+[![CircleCI Status](https://circleci.com/gh/nettoclaudio/dontpad-cli.svg?style=svg&circle-token=3bd4b3d74f5089c30aa224545365a5585e6c994d)](https://circleci.com/gh/nettoclaudio/dontpad-cli)
+
 ## Quick start
 
 ```bash
