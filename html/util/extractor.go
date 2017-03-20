@@ -21,9 +21,11 @@ func ExtractFolderMessage(htmlPage string) (string, error) {
         return "", err
     }
     
-    var message string
+    if folderNode.FirstChild == nil {
+        return "", nil
+    }
     
-    message = folderNode.FirstChild.Data
+    message := folderNode.FirstChild.Data
     
     return message, nil
 }
