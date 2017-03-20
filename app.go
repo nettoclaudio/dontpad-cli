@@ -32,7 +32,7 @@ func main() {
         fmt.Fprintf(os.Stderr, "ERROR: Problem getting message.\n%s", err)
     }
     
-    fmt.Println(content)
+    fmt.Printf("%s", content)
 }
 
 func hasFolderArgument() bool {
