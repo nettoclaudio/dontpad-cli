@@ -1,5 +1,8 @@
 # Auto generated dir before app compilation
 bin
 
+# Auto generated dir before tests
+report
+
 # Undesired vim swap file
 *.swp
