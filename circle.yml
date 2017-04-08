@@ -3,8 +3,10 @@ machine:
     America/Sao_Paulo
 
 test:
+  pre:
+    - go get github.com/mattn/goveralls
   override:
     - make test
   post:
-    - mkdir -p ${CIRCLE_ARTIFACTS}
-    - mv report ${CIRCLE_ARTIFACTS}
+    - mkdir -p ${CIRCLE_ARTIFACTS} && mv report ${CIRCLE_ARTIFACTS}
+    - ${GOPATH}/bin/goveralls -coverprofile=report/coverage.out -service=circle-ci -repotoken=${COVERALLS_TOKEN}
