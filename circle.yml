@@ -1,0 +1,10 @@
+machine:
+  timezone:
+    America/Sao_Paulo
+
+test:
+  override:
+    - make test
+  post:
+    - mkdir -p ${CIRCLE_ARTIFACTS}
+    - mv bin report ${CIRCLE_ARTIFACTS}
