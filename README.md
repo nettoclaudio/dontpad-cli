@@ -5,15 +5,16 @@ A minimal tool for Dontpad's users under CLI.
 **Warning**: This app isn't a Dontpad official software.
 
 [![CircleCI Status](https://circleci.com/gh/nettoclaudio/dontpad-cli.svg?style=svg&circle-token=3bd4b3d74f5089c30aa224545365a5585e6c994d)](https://circleci.com/gh/nettoclaudio/dontpad-cli)
+[![Coverage Status](https://coveralls.io/repos/github/nettoclaudio/dontpad-cli/badge.svg?branch=master)](https://coveralls.io/github/nettoclaudio/dontpad-cli?branch=master)
 
 ## Quick start
 
 ```bash
 go get github.com/nettoclaudio/dontpad-cli
-${GOPATH}/bin/dontpad-cli /my-first-folder/annotations
+${GOPATH:-"~/go"}/bin/dontpad-cli /my-first-folder/annotations
 ```
 
-or
+or (preferred for developers)
 
 ```bash
 mkdir -p ${GOPATH}/src/github.com/nettoclaudio
@@ -29,9 +30,9 @@ dontpad-cli /my-first-folder/annotations
 ```
 ## TO DO
 
-+ ~~View a folder~~
-+ Edit a folder
-+ Show a list of folder's children
-+ Backup a folder(and subfolders)
++   ~~View a folder~~
++   Edit a folder
++   Show a list of folder's children
++   Backup a folder(and subfolders)
 
 Made with ~~Dontpad~~love.
