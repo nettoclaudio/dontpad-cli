@@ -9,4 +9,4 @@ test:
     - make test
   post:
     - mkdir -p ${CIRCLE_ARTIFACTS} && mv report ${CIRCLE_ARTIFACTS}
-    - ${GOPATH}/bin/goveralls -coverprofile=report/coverage.out -service=circle-ci -repotoken=${COVERALLS_TOKEN}
+    - $(echo ${GOPATH} | cut -d ':' -f 1)/bin/goveralls -coverprofile=report/coverage.out -service=circle-ci -repotoken=${COVERALLS_TOKEN}
