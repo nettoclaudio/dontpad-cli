@@ -14,7 +14,7 @@ packages := $(shell $(GO) list ./...)
 all: build
 
 build: pre-build
-	$(GO) build $(goBuildFlags) -o $(goBuildDir)/$(goAppName) app.go input.go
+	$(GO) build $(goBuildFlags) -o $(goBuildDir)/$(goAppName) app.go
 
 pre-build: clean
 	mkdir $(goBuildDir)
