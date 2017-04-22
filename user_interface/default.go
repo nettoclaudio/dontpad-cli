@@ -39,9 +39,7 @@ func ProcessCommands() (SetUp, error) {
     setup.RemoteFolder = sanitizeRemoteFolder(flag.Arg(0))
 
     if ! isValidRemoteFolder(setup.RemoteFolder) {
-        flag.Usage()
-
-        return setup, errors.New("Write a remote folder valid.")
+        return setup, errors.New("[ERROR] The remote folder '" + setup.RemoteFolder +"' is invalid.")
     }
 
     return setup, nil
