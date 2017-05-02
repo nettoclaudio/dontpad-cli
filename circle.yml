@@ -1,6 +1,4 @@
 machine:
-  environment:
-    PATH: ${PATH}:"$(echo ${GOPATH} | cut -d ':' -f 1)/bin"
   timezone:
     America/Sao_Paulo
 
@@ -17,4 +15,7 @@ deployment:
   dockerhub:
     branch: master
     commands:
-      - curl -X POST -H "Content-Type: application/json" --data '{"source_type": "Branch", "source_name": "master"}' https://registry.hub.docker.com/u/nettoclaudio/dontpad-cli/trigger/${DOCKER_HUB_TOKEN}/
+      - >-
+        curl -X POST -H 'Content-Type: application/json'
+        --data '{"source_type": "Branch", "source_name": "master"}'
+        "https://registry.hub.docker.com/u/nettoclaudio/dontpad-cli/trigger/${DOCKER_HUB_TOKEN}/"
