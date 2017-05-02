@@ -12,3 +12,9 @@ test:
   post:
     - mkdir -p ${CIRCLE_ARTIFACTS} && mv report ${CIRCLE_ARTIFACTS}
     - goveralls -coverprofile=${CIRCLE_ARTIFACTS}/report/coverage.out -service=circle-ci -repotoken=${COVERALLS_TOKEN}
+
+deployment:
+  dockerhub:
+    branch: master
+    commands:
+      - curl -X POST -H "Content-Type: application/json" --data '{"source_type": "Branch", "source_name": "master"}' https://registry.hub.docker.com/u/nettoclaudio/dontpad-cli/trigger/${DOCKER_HUB_TOKEN}/
