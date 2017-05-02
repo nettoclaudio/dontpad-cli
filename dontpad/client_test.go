@@ -1,10 +1,7 @@
 package dontpad
 
 import (
-    "bytes"
     "errors"
-    "io/ioutil"
-    "net/http"
     "testing"
 )
 
@@ -22,13 +19,13 @@ func TestFormatTemplateURLViewFolder_MustReturnSameStringAsExpected(t *testing.T
 }
 
 func TestGetContentFolder_ConnectionTimeout_MustReturnError(t *testing.T) {
-    oldDoGetRequest := doGetRequest
+    oldExtractHttpResponseBody := extractHttpResponseBody
 
-    doGetRequest = func(url string) (*http.Response, error) {
-        return nil, errors.New("Timeout")
+    defer func() { extractHttpResponseBody = oldExtractHttpResponseBody }()
+
+    extractHttpResponseBody = func(url string) ([]byte, error) {
+        return []byte{}, errors.New("Timeout")
     }
-
-    defer func() { doGetRequest = oldDoGetRequest }()
 
     _, err := GetContentFolder("my-remote-folder")
 
@@ -38,26 +35,13 @@ func TestGetContentFolder_ConnectionTimeout_MustReturnError(t *testing.T) {
 }
 
 func TestGetContentFolder_UnexpectedResponse_MustReturnError(t *testing.T) {
-    oldDoGetRequest := doGetRequest
+    oldExtractHttpResponseBody := extractHttpResponseBody
 
-    doGetRequest = func(url string) (*http.Response, error) {
+    defer func() { extractHttpResponseBody = oldExtractHttpResponseBody }()
 
-        response := &http.Response{
-            Status:        "404 Not Found",
-            StatusCode:    http.StatusNotFound,
-            Proto:         "HTTP/1.1",
-            ProtoMajor:    1,
-            ProtoMinor:    1,
-            Body:          ioutil.NopCloser(bytes.NewBufferString("")),
-            ContentLength: int64(0),
-            Request:       nil,
-            Header:        make(http.Header, 0),
-        }
-
-        return response, nil
+    extractHttpResponseBody = func(url string) ([]byte, error) {
+        return []byte{}, errors.New("Unexpected status code.")
     }
-
-    defer func() { doGetRequest = oldDoGetRequest }()
 
     _, err := GetContentFolder("my-remote-folder")
 
@@ -66,29 +50,14 @@ func TestGetContentFolder_UnexpectedResponse_MustReturnError(t *testing.T) {
     }
 }
 
-func TestGetContentFolder_ResponseOK_MustNotReturnError(t *testing.T) {
-    oldDoGetRequest := doGetRequest
+func TestGetContentFolder_ResponseOK_MustNotReturnError_MustReturnSameBodyMessage(t *testing.T) {
+    oldExtractHttpResponseBody := extractHttpResponseBody
 
-    doGetRequest = func(url string) (*http.Response, error) {
+    defer func() { extractHttpResponseBody = oldExtractHttpResponseBody }()
 
-        json := `{"changed":false,"lastUpdate":0,"body":"Hello, howdy!"}`
-
-        response := &http.Response{
-            Status:        "200 OK",
-            StatusCode:    http.StatusOK,
-            Proto:         "HTTP/1.1",
-            ProtoMajor:    1,
-            ProtoMinor:    1,
-            Body:          ioutil.NopCloser(bytes.NewBufferString(json)),
-            ContentLength: int64(len(json)),
-            Request:       nil,
-            Header:        make(http.Header, 0),
-        }
-
-        return response, nil
+    extractHttpResponseBody = func(url string) ([]byte, error) {
+        return []byte(`{"changed":false,"lastUpdate":0,"body":"Hello, howdy!"}`), nil
     }
-
-    defer func() { doGetRequest = oldDoGetRequest }()
 
     resp, err := GetContentFolder("my-remote-folder")
 

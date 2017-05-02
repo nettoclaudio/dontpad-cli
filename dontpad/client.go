@@ -3,10 +3,8 @@ package dontpad
 import (
     "bytes"
     "encoding/json"
-    "errors"
     "fmt"
-    "io/ioutil"
-    "net/http"
+    "github.com/nettoclaudio/dontpad-cli/util"
 )
 
 type Response struct {
@@ -16,12 +14,12 @@ type Response struct {
 }
 
 var (
-    doGetRequest func(string) (*http.Response, error)
+    extractHttpResponseBody func(string) ([]byte, error)
     templateURLViewFolder string = "http://dontpad.com/%s.body.json?lastUpdate=%d"
 )
 
 func init() {
-    doGetRequest = func(url string) (*http.Response, error) {return http.Get(url)}
+    extractHttpResponseBody = func(url string) ([]byte, error) { return util.ExtractHttpResponseBodyIfStatusCodeIsOk(url) }
 }
 
 func GetContentFolder(remoteFolder string) (Response, error) {
@@ -29,23 +27,13 @@ func GetContentFolder(remoteFolder string) (Response, error) {
 
     url := formatTemplateURLViewFolder(remoteFolder, 0)
 
-    resp, err := doGetRequest(url)
+    body, err := extractHttpResponseBody(url)
 
-    if err != nil {
-        return response, err
+    if err == nil {
+        json.Unmarshal(body, &response)
     }
 
-    defer resp.Body.Close()
-
-    if resp.StatusCode == 200 {
-        content, _ := ioutil.ReadAll(resp.Body)
-
-        json.Unmarshal(content, &response)
-
-        return response, nil
-    }
-
-    return response, errors.New("Unexpected response(status code).")
+    return response, err
 }
 
 func formatTemplateURLViewFolder(remoteFolder string, lastUpdate int) string {
