@@ -16,6 +16,7 @@ type Response struct {
 var (
     extractHttpResponseBody func(string) ([]byte, error)
     templateURLViewFolder string = "http://dontpad.com/%s.body.json?lastUpdate=%d"
+    templateURLSubfolders string = "http://dontpad.com/%s.menu.json"
 )
 
 func init() {
@@ -36,10 +37,32 @@ func GetContentFolder(remoteFolder string) (Response, error) {
     return response, err
 }
 
+func GetSubfolders(remoteFolder string) ([]string, error) {
+    var subfolders []string
+
+    url := formatTemplateURLSubfolders(remoteFolder)
+
+    body, err := extractHttpResponseBody(url)
+
+    if err == nil {
+        json.Unmarshal(body, &subfolders)
+    }
+
+    return subfolders, err
+}
+
 func formatTemplateURLViewFolder(remoteFolder string, lastUpdate int) string {
     buffer := &bytes.Buffer{}
 
     fmt.Fprintf(buffer, templateURLViewFolder, remoteFolder, 0)
+
+    return buffer.String()
+}
+
+func formatTemplateURLSubfolders(remoteFolder string) string {
+    buffer := &bytes.Buffer{}
+
+    fmt.Fprintf(buffer, templateURLSubfolders, remoteFolder)
 
     return buffer.String()
 }
