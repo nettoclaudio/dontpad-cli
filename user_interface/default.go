@@ -11,11 +11,13 @@ import (
 
 type SetUp struct {
     RemoteFolder   string
+    ListSubfolders bool
 }
 
 var (
     programName    string
     outputDefault  io.Writer
+    setup          SetUp
 )
 
 func init() {
@@ -24,12 +26,12 @@ func init() {
 
     flag.Usage = customUsage
 
+    flag.BoolVar(&setup.ListSubfolders, "subfolders", false, "List all subfolders from a remote folder.")
+
     flag.Parse()
 }
 
 func ProcessCommands() (SetUp, error) {
-    var setup SetUp
-
     if ! hasRemoteFolder() {
         flag.Usage()
 

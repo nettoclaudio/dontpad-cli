@@ -1,9 +1,6 @@
 package main
 
 import (
-    "fmt"
-    "os"
-    "github.com/nettoclaudio/dontpad-cli/dontpad"
     "github.com/nettoclaudio/dontpad-cli/user_interface"
     "github.com/nettoclaudio/dontpad-cli/util"
 )
@@ -16,11 +13,15 @@ func main() {
 
     util.ShowMessageAndExitOnError(err)
 
-    var response dontpad.Response
+    if setup.ListSubfolders {
+        err = user_interface.ListSubfolders(setup.RemoteFolder)
 
-    response, err = dontpad.GetContentFolder(setup.RemoteFolder)
+        util.ShowMessageAndExitOnError(err)
+
+        return
+    }
+
+    err = user_interface.ShowContentFolder(setup.RemoteFolder)
 
     util.ShowMessageAndExitOnError(err)
-
-    fmt.Fprintf(os.Stdout, "%s", response.Body)
 }
