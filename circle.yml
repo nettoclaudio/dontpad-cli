@@ -1,4 +1,6 @@
 machine:
+  environment:
+    PATH: ${PATH}:"$(echo ${GOPATH} | cut -d ':' -f 1)/bin"
   timezone:
     America/Sao_Paulo
 
@@ -9,4 +11,4 @@ test:
     - make test
   post:
     - mkdir -p ${CIRCLE_ARTIFACTS} && mv report ${CIRCLE_ARTIFACTS}
-    - $(echo ${GOPATH} | cut -d ':' -f 1)/bin/goveralls -coverprofile=${CIRCLE_ARTIFACTS}/report/coverage.out -service=circle-ci -repotoken=${COVERALLS_TOKEN}
+    - goveralls -coverprofile=${CIRCLE_ARTIFACTS}/report/coverage.out -service=circle-ci -repotoken=${COVERALLS_TOKEN}
