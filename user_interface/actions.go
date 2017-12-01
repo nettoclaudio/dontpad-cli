@@ -24,8 +24,6 @@ func init() {
 func ShowContentFolder(remoteFolder string) error {
     response, err := getContentFolder(remoteFolder)
 
-    fmt.Println(response, err)
-
     if err == nil {
         fmt.Fprintf(outputChannel, "%s", response.Body)
     }
