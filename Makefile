@@ -20,8 +20,7 @@ pre-build: clean
 	mkdir $(goBuildDir)
 
 clean:
-	rm -f $(goBuildDir)/$(goAppName)
-	rm -df $(goBuildDir)
+	rm -rf $(goBuildDir)
 
 install:
 	ln -s $(shell pwd)/$(goBuildDir)/$(goAppName) $(installDir)
