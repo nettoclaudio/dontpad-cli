@@ -53,7 +53,7 @@ func TestShowContentFolder_TimeoutError_MustNotPrintAnything(t *testing.T) {
     }
 }
 
-func TestShowContentFolder_NoError_MustPrintOneSubfolderPerLine(t *testing.T) {
+func TestListSubfolders_NoError_MustPrintOneSubfolderPerLine(t *testing.T) {
     oldGetSubfolders := getSubfolders
     oldOutputChannel := outputChannel
 
@@ -78,7 +78,7 @@ func TestShowContentFolder_NoError_MustPrintOneSubfolderPerLine(t *testing.T) {
     }
 }
 
-func TestShowContentFolder_TimeoutErrors_MustNotPrintAnything(t *testing.T) {
+func TestListSubfolders_TimeoutErrors_MustNotPrintAnything(t *testing.T) {
     oldGetSubfolders := getSubfolders
     oldOutputChannel := outputChannel
 
