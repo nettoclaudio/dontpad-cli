@@ -15,14 +15,22 @@ type SetUp struct {
 }
 
 var (
-    programName    string
-    outputDefault  io.Writer
-    setup          SetUp
+    getInputFileMode    func() os.FileMode
+
+    programName     string
+    outputDefault   io.Writer
+    setup           SetUp
 )
 
 func init() {
     programName = os.Args[0]
     outputDefault = os.Stderr
+
+    getInputFileMode = func() os.FileMode {
+        inputInfo, _ := os.Stdin.Stat()
+
+        return inputInfo.Mode()
+    }
 
     flag.Usage = customUsage
 
@@ -45,6 +53,11 @@ func ProcessCommands() (SetUp, error) {
     }
 
     return setup, nil
+}
+
+func HasPipedInput() bool {
+
+    return getInputFileMode() & os.ModeNamedPipe != 0
 }
 
 func customUsage() {

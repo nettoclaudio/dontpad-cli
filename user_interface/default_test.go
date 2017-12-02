@@ -146,3 +146,31 @@ func TestProcessCommands_MustReturnSetupCorrectly(t *testing.T) {
         t.Errorf("Expected [my-folder/agenda] but got [%s]", setup.RemoteFolder)
     }
 }
+
+func TestHasPipedInput_ReceivedPipedInput_MustReturnTrue(t *testing.T) {
+    oldGetInputFileMode := getInputFileMode
+    
+    defer func() { getInputFileMode = oldGetInputFileMode }()
+
+    getInputFileMode = func() os.FileMode {
+        return os.ModeNamedPipe
+    }
+
+    if ! HasPipedInput() {
+        t.Errorf("Expected [true] but got [false]")
+    }
+}
+
+func TestHasPipedInput_NotReceivedPipedInput_MustReturnFalse(t *testing.T) {
+    oldGetInputFileMode := getInputFileMode
+    
+    defer func() { getInputFileMode = oldGetInputFileMode }()
+
+    getInputFileMode = func() os.FileMode {
+        return os.ModeDir
+    }
+
+    if HasPipedInput() {
+        t.Errorf("Expected [false] but got [true]")
+    }
+}
