@@ -1,6 +1,7 @@
 package user_interface
 
 import (
+    "bufio"
     "bytes"
     "flag"
     "os"
@@ -172,5 +173,21 @@ func TestHasPipedInput_NotReceivedPipedInput_MustReturnFalse(t *testing.T) {
 
     if HasPipedInput() {
         t.Errorf("Expected [false] but got [true]")
+    }
+}
+
+func TestGetPipedInputData_MustReturnExpectedInput(t *testing.T) {
+    oldInputReader := inputReader
+
+    defer func() { inputReader = oldInputReader }()
+
+    expectedInput := "Hello world"
+
+    inputReader = bufio.NewReader(bytes.NewBufferString(expectedInput))
+
+    got := GetPipedInputData()
+
+    if got != expectedInput {
+        t.Errorf("Expected [%s] but got [%s]", expectedInput, got);
     }
 }

@@ -1,6 +1,7 @@
 package user_interface
 
 import (
+    "bufio"
     "errors"
     "flag"
     "fmt"
@@ -20,6 +21,8 @@ var (
     programName     string
     outputDefault   io.Writer
     setup           SetUp
+
+    inputReader     *bufio.Reader
 )
 
 func init() {
@@ -31,6 +34,8 @@ func init() {
 
         return inputInfo.Mode()
     }
+
+    inputReader = bufio.NewReader(os.Stdin)
 
     flag.Usage = customUsage
 
@@ -58,6 +63,22 @@ func ProcessCommands() (SetUp, error) {
 func HasPipedInput() bool {
 
     return getInputFileMode() & os.ModeNamedPipe != 0
+}
+
+func GetPipedInputData() string {
+    var data []rune
+
+    for {
+        rune, _, err := inputReader.ReadRune()
+
+        if err != nil && err == io.EOF {
+            break
+        }
+
+        data = append(data, rune)
+    }
+
+    return string(data)
 }
 
 func customUsage() {
