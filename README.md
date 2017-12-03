@@ -8,6 +8,12 @@ A minimal tool for Dontpad's users under CLI.
 [![Coverage Status](https://coveralls.io/repos/github/nettoclaudio/dontpad-cli/badge.svg?branch=master)](https://coveralls.io/github/nettoclaudio/dontpad-cli?branch=master)
 [![MicroBadger Info](https://images.microbadger.com/badges/image/nettoclaudio/dontpad-cli.svg)](https://microbadger.com/images/nettoclaudio/dontpad-cli)
 
+--- 
+
+## Usage
+
+[![asciicast](https://asciinema.org/a/150757.png)](https://asciinema.org/a/150757)
+
 ## Quick start
 
 ```bash
@@ -33,7 +39,7 @@ dontpad-cli /my-first-folder/annotations
 ## TO DO
 
 +   ~~View a folder~~
-+   Edit a folder
++   ~~Edit a folder~~
 +   ~~List subfolders~~
 +   Backup a folder(and subfolders)
 
