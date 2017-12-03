@@ -144,3 +144,15 @@ func TestGetSubfolders_ResponseOK_NoSubfolders_MustReturnEmptyList(t *testing.T)
         t.Errorf("Expected %v but got %v.", expectedSubfolders, subfolders)
     }
 }
+
+func TestFormatTemplateURL_MustReturnSameStringAsExpected(t *testing.T) {
+    remoteFolder := "my-folder"
+
+    expectedURL := "http://dontpad.com/my-folder"
+
+    actualURL := formatTemplateURL(remoteFolder)
+
+    if actualURL != expectedURL {
+        t.Errorf("Expected [%s] but got [%s].", expectedURL, actualURL)
+    }
+}

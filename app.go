@@ -21,7 +21,13 @@ func main() {
         return
     }
 
-    err = user_interface.ShowContentFolder(setup.RemoteFolder)
+    if user_interface.HasPipedInput() {
+        inputData := user_interface.GetPipedInputData()
 
-    util.ShowMessageAndExitOnError(err)
+        user_interface.WriteFolder(setup.RemoteFolder, inputData);
+    } else {
+        err = user_interface.ShowContentFolder(setup.RemoteFolder)
+        
+        util.ShowMessageAndExitOnError(err)
+    }
 }

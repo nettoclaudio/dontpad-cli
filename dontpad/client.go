@@ -4,6 +4,8 @@ import (
     "bytes"
     "encoding/json"
     "fmt"
+    "net/http"
+    "net/url"
     "github.com/nettoclaudio/dontpad-cli/util"
 )
 
@@ -15,8 +17,10 @@ type Response struct {
 
 var (
     extractHttpResponseBody func(string) ([]byte, error)
-    templateURLViewFolder string = "http://dontpad.com/%s.body.json?lastUpdate=%d"
-    templateURLSubfolders string = "http://dontpad.com/%s.menu.json"
+
+    templateURL           string = "http://dontpad.com/%s"
+    templateURLViewFolder string =  templateURL + ".body.json?lastUpdate=%d"
+    templateURLSubfolders string =  templateURL + ".menu.json"
 )
 
 func init() {
@@ -49,6 +53,23 @@ func GetSubfolders(remoteFolder string) ([]string, error) {
     }
 
     return subfolders, err
+}
+
+func ReplaceContentFolder(remoteFolder, data string) {
+    finalURL := formatTemplateURL(remoteFolder)
+
+    formValues := url.Values{}
+    formValues.Set("text", data)
+
+    http.PostForm(finalURL, formValues)
+}
+
+func formatTemplateURL(remoteFolder string) string {
+    buffer := &bytes.Buffer{}
+    
+    fmt.Fprintf(buffer, templateURL, remoteFolder)
+
+    return buffer.String()
 }
 
 func formatTemplateURLViewFolder(remoteFolder string, lastUpdate int) string {

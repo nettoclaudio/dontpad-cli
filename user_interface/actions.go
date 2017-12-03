@@ -42,3 +42,7 @@ func ListSubfolders(remoteFolder string) error {
 
     return err
 }
+
+func WriteFolder(remoteFolder, data string) {
+    dontpad.ReplaceContentFolder(remoteFolder, data)
+}
